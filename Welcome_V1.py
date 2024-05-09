@@ -33,15 +33,4 @@ Label(welcome, text="Instructions", bg="steel blue", fg="white",
       font=("Arial Black", 25, "bold")).grid(row=1, column=1, pady=10)
 Label(welcome, text=instructions("welcome"), bg="steel blue", fg="white",
       font=("Arial Black", 10)).grid(row=2, column=1, pady=0)
-# Buttons for Welcome Screen
-multi = Button(welcome, text="Multiple Choice", command="multiple()")
-multi.grid(row=3, column=0)
-torf = Button(welcome, text="True or False", command="t_or_f()")
-torf.grid(row=3, column=1)
-whole = Button(welcome, text="Whole Word", command="whole_w()")
-whole.grid(row=3, column=2)
-results = Button(welcome, text="Results", command="results()")
-results.grid(row=4, column=1, padx=20)
-exit = Button(welcome, text="Exit", command="exit()")
-exit.grid(row=4, column=1, padx=10)
 mainloop()
