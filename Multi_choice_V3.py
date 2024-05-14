@@ -103,14 +103,18 @@ def multi_choice(ques):
                       command=lambda: print("Correct"))
     option_1.place(x=250, y=300, anchor=CENTER)
     option_2 = Button(multi, text=ques[0].options[1], font=(bse, 13), bg=btn,
-                      command=lambda: print("Wrong"))
+                      command=lambda: [print("Correct"), Label.destroy(
+                          option_2)])
     option_2.place(x=350, y=300, anchor=CENTER)
     option_3 = Button(multi, text=ques[0].options[2], font=(bse, 13), bg=btn,
-                      command=lambda: print("Wrong"))
+                      command=lambda: [print("Correct"), Label.destroy(
+                          option_3)])
     option_3.place(x=450, y=300, anchor=CENTER)
     option_4 = Button(multi, text=ques[0].options[3], font=(bse, 13), bg=btn,
-                      command=lambda: print("Wrong"))
+                      command=lambda: [print("Correct"), Label.destroy(
+                          option_4)])
     option_4.place(x=550, y=300, anchor=CENTER)
+    ques_labels = [question, option_1, option_2, option_3, option_4]
 
 
 # Main Routine

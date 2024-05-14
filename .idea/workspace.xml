@@ -33,7 +33,7 @@
       <recent name="C:\Users\Micha\OneDrive - Middleton Grange School\Real Assement - Maori Quiz" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.Multi_choice_V2">
+  <component name="RunManager" selected="Python.Multi_choice_V3">
     <configuration name="Multi_choice_V1" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="Real Assement - Maori Quiz" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -76,7 +76,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="Welcome_V1" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="Multi_choice_V3" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="Real Assement - Maori Quiz" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -88,7 +88,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Welcome_V1.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Multi_choice_V3.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -141,11 +141,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.Multi_choice_V3" />
         <item itemvalue="Python.Multi_choice_V2" />
         <item itemvalue="Python.Multi_choice_V1" />
         <item itemvalue="Python.Welcome_V3" />
         <item itemvalue="Python.Welcome_V2" />
-        <item itemvalue="Python.Welcome_V1" />
       </list>
     </recent_temporary>
   </component>
