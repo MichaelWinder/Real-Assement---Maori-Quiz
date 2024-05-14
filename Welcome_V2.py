@@ -36,7 +36,6 @@ welcome.minsize(800, 500)
 welcome.resizable(False, False)
 welcome.configure(bg='steel blue')
 # Text Labels for Welcome Screen
-Label(welcome, text="", bg="steel blue").grid(row=10, column=10)
 Label(welcome, text="Welcome to the Maori Quiz!", bg=hed,
       fg=txt, font=(ttl, 40)).place(x=0, y=0)
 Label(welcome, text="Instructions", bg=bgd, fg=txt,
