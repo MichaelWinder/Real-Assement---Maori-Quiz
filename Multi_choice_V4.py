@@ -83,10 +83,19 @@ def menu():
     mainloop()
 
 
+def delete_buttons(tk_screen, q_type):
+    if q_type == "mc":
+        tk_screen.destroy(b)
+    elif q_type == "tf":
+        pass
+    elif q_type == "ww":
+        pass
+
+
 def next_question(tk_screen):
     next_q_btn = Button(tk_screen, text="Next Question", font=(bse, 13),
-                        bg=btn, command=lambda: print("moving to next "
-                                                      "question"))
+                        bg=btn, command=lambda: delete_buttons(tk_screen,
+                                                               "mc"))
     next_q_btn.place(x=400, y=400, anchor=N)
 
 
