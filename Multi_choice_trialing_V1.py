@@ -66,7 +66,7 @@ def menu():
           font=(bse, 12)).place(x=400, y=200, anchor=CENTER)
     # Buttons for Welcome Screen
     multi = Button(welcome, text="Multiple Choice", font=(bse, 13), bg=btn,
-                   command=lambda: [multi_choice(mc_list), welcome.destroy()])
+                   command=lambda: [multi_list(mc_list), welcome.destroy()])
     multi.place(x=250, y=300, anchor='ne')
     torf = Button(welcome, text="True or False", font=(bse, 13), bg=btn,
                   command=lambda: ["true_or_false()", welcome.destroy()])
@@ -83,22 +83,14 @@ def menu():
     mainloop()
 
 
-def delete_buttons(tk_screen, q_type, ques_labels):
-    if q_type == "mc":
-        for item in ques_labels:
-            item: Button
-            item.place_forget()
-    elif q_type == "tf":
-        pass
-    elif q_type == "ww":
-        pass
+def multi_list(ques):
+    for question in ques:
+        multi_choice(question)
 
 
-def next_question(tk_screen, ques_labels):
+def next_question(tk_screen):
     next_q_btn = Button(tk_screen, text="Next Question", font=(bse, 13),
-                        bg=btn, command=lambda: delete_buttons(tk_screen,
-                                                               "mc",
-                                                               ques_labels))
+                        bg=btn, command=lambda: tk_screen.destroy())
     next_q_btn.place(x=400, y=400, anchor=N)
 
 
@@ -116,22 +108,25 @@ def multi_choice(ques):
     box.pack()
     Label(multi, text="Multiple Choice Questions!", bg=hed,
           fg=txt, font=(ttl, 34)).place(x=401, y=5, anchor='n')
-    question = Label(multi, text=ques[0].text, bg=bgd, fg=txt, font=(ttl, 25))
-    question.place(x=400, y=106, anchor=CENTER)
-    option_1 = Button(multi, text=ques[0].options[0], font=(bse, 13), bg=btn,
-                      command=lambda: [print("Correct"), next_question(
-                          multi, ques_labels)])
+    question_l = Label(multi, text=question.text, bg=bgd, fg=txt,
+                       font=(ttl, 25))
+    question_l.place(x=400, y=106, anchor=CENTER)
+    option_1 = Button(multi, text=question.options[0], font=(bse, 13), bg=btn,
+                      command=lambda: [print("Correct"),
+                                       next_question(multi)])
     option_1.place(x=250, y=300, anchor=CENTER)
-    option_2 = Button(multi, text=ques[0].options[1], font=(bse, 13), bg=btn,
-                      command=lambda: [print("Wrong"), next_question(multi, ques_labels)])
+    option_2 = Button(multi, text=question.options[1], font=(bse, 13), bg=btn,
+                      command=lambda: [print("Wrong"),
+                                       next_question(multi)])
     option_2.place(x=350, y=300, anchor=CENTER)
-    option_3 = Button(multi, text=ques[0].options[2], font=(bse, 13), bg=btn,
-                      command=lambda: [print("Wrong"), next_question(multi, ques_labels)])
+    option_3 = Button(multi, text=question.options[2], font=(bse, 13), bg=btn,
+                      command=lambda: [print("Wrong"),
+                                       next_question(multi)])
     option_3.place(x=450, y=300, anchor=CENTER)
-    option_4 = Button(multi, text=ques[0].options[3], font=(bse, 13), bg=btn,
-                      command=lambda: [print("Wrong"), next_question(multi, ques_labels)])
+    option_4 = Button(multi, text=question.options[3], font=(bse, 13), bg=btn,
+                      command=lambda: [print("Wrong"),
+                                       next_question(multi)])
     option_4.place(x=550, y=300, anchor=CENTER)
-    ques_labels = [question, option_1, option_2, option_3, option_4]
 
 
 # Main Routine
@@ -142,6 +137,8 @@ ww_list = []
 
 Questions("MC", "What is Ethan?", ["Wrong", "Right", "Dumbo", "Smarto"],
           "Wrong")
+Questions("MC", "What is Thomas", ["Wrong", "Right", "Dumbo", "Smarto"],
+          "Dumbo")
 
 
 menu()
