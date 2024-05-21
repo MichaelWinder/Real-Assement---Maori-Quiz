@@ -5,6 +5,8 @@ bgd = "steel blue"
 hed = "chocolate2"
 btn = "peach puff"
 txt = "white"
+c_ans = "lime green"
+w_ans = "red"
 # Fonts
 ttl = "Arial Black"
 bse = "Arial"
@@ -18,15 +20,18 @@ class Questions:
         self.options = options
         self.answer = answer
         q_list.append(self)
-        for question in q_list:
-            if question.question_type == "MC":
-                mc_list.append(question)
-        for question in q_list:
-            if question.question_type == "TF":
-                tf_list.append(question)
-        for question in q_list:
-            if question.question_type == "WW":
-                ww_list.append(question)
+
+
+def set_lists():
+    for question in q_list:
+        if question.question_type == "MC":
+            mc_list.append(question)
+    for question in q_list:
+        if question.question_type == "TF":
+            tf_list.append(question)
+    for question in q_list:
+        if question.question_type == "WW":
+            ww_list.append(question)
 
 
 def instructions(itype):
@@ -46,6 +51,7 @@ def instructions(itype):
 
 
 def menu():
+    set_lists()
     welcome = Tk()
     welcome.title("Maori Quiz!")
     welcome.geometry("+2500+100")
@@ -66,16 +72,16 @@ def menu():
           font=(bse, 12)).place(x=400, y=200, anchor=CENTER)
     # Buttons for Welcome Screen
     multi = Button(welcome, text="Multiple Choice", font=(bse, 13), bg=btn,
-                   command=lambda: [multi_list(mc_list), welcome.destroy()])
+                   command=lambda: [welcome.destroy(), multi_list(mc_list)])
     multi.place(x=250, y=300, anchor='ne')
     torf = Button(welcome, text="True or False", font=(bse, 13), bg=btn,
-                  command=lambda: ["true_or_false()", welcome.destroy()])
+                  command=lambda: [welcome.destroy(), "true_or_false()"])
     torf.place(x=400, y=300, anchor='n')
     whole = Button(welcome, text="Whole Word", font=(bse, 13), bg=btn,
-                   command=lambda: ["whole_word()", welcome.destroy()])
+                   command=lambda: [welcome.destroy(), "whole_word()"])
     whole.place(x=550, y=300, anchor='nw')
     results = Button(welcome, text="Results", font=(bse, 13), bg=btn,
-                     command=lambda: ["results()", welcome.destroy()])
+                     command=lambda: [welcome.destroy(), "results()"])
     results.place(x=310, y=360, anchor='n')
     exit = Button(welcome, text="Exit", font=(bse, 13), bg=btn,
                   command=lambda: quit())
@@ -88,27 +94,33 @@ def multi_list(ques):
         multi_choice(question)
 
 
-def delete_buttons(q_type, ques_btns):
-    if q_type == "mc":
-        for item in ques_btns:
-            item: Button
-            item.place_forget()
-    elif q_type == "tf":
-        pass
-    elif q_type == "ww":
-        pass
-
-
-def next_question(tk_screen, ques_btns):
+def next_question(tk_screen):
     next_q_btn = Button(tk_screen, text="Next Question", font=(bse, 13),
-                        bg=btn, command=lambda: delete_buttons("mc",
-                                                               ques_btns))
+                        bg=btn, command=lambda: tk_screen.destroy())
     next_q_btn.place(x=400, y=400, anchor=N)
-    ques_btns.append(next_q_btn)
+
+
+def ans_check(tk_screen, answer, c_answer):
+    if answer == c_answer:
+        right = Label(tk_screen, text="CORRECT", bg=bgd, fg=c_ans,
+                      font=(ttl, 35), relief="raised")
+        right.place(x=400, y=160, anchor=N)
+    elif answer != c_answer:
+        wrong = Label(tk_screen, text="WRONG", bg=bgd, fg=w_ans,
+                      font=(ttl, 35), relief="raised")
+        wrong.place(x=400, y=160, anchor=N)
+        correct_answer = Label(tk_screen, text=f"The Correct Answer was "
+                                               f"{c_answer}", bg=bgd,
+                               fg=txt, font=(bse, 14), relief="sunken")
+        correct_answer.place(x=400, y=250, anchor=N)
+
+
+def disable_btns(btn_list):
+    for btn in btn_list:
+        btn["state"] = DISABLED
 
 
 def multi_choice(ques):
-    ques_btns = []
     multi = Tk()
     multi.title("Maori Quiz!")
     multi.geometry("+2500+100")
@@ -122,29 +134,31 @@ def multi_choice(ques):
     box.pack()
     Label(multi, text="Multiple Choice Questions!", bg=hed,
           fg=txt, font=(ttl, 34)).place(x=401, y=5, anchor='n')
-    question = Label(multi, text=ques.text, bg=bgd, fg=txt, font=(ttl, 25))
-    question.place(x=400, y=106, anchor=CENTER)
+    question_l = Label(multi, text=ques.text, bg=bgd, fg=txt,
+                       font=(ttl, 25))
+    question_l.place(x=400, y=106, anchor=CENTER)
     option_1 = Button(multi, text=ques.options[0], font=(bse, 13), bg=btn,
-                      command=lambda: [print("Correct"),
-                                       next_question(multi, ques_btns)])
+                      command=lambda: [ans_check(multi, ques.options[0],
+                                       ques.answer), next_question(multi),
+                                       disable_btns(btn_list)])
     option_1.place(x=250, y=300, anchor=CENTER)
     option_2 = Button(multi, text=ques.options[1], font=(bse, 13), bg=btn,
-                      command=lambda: [print("Wrong"),
-                                       next_question(multi, ques_btns)])
+                      command=lambda: [ans_check(multi, ques.options[1],
+                                       ques.answer), next_question(multi),
+                                       disable_btns(btn_list)])
     option_2.place(x=350, y=300, anchor=CENTER)
     option_3 = Button(multi, text=ques.options[2], font=(bse, 13), bg=btn,
-                      command=lambda: [print("Wrong"),
-                                       next_question(multi, ques_btns)])
+                      command=lambda: [ans_check(multi, ques.options[2],
+                                       ques.answer), next_question(multi),
+                                       disable_btns(btn_list)])
     option_3.place(x=450, y=300, anchor=CENTER)
     option_4 = Button(multi, text=ques.options[3], font=(bse, 13), bg=btn,
-                      command=lambda: [print("Wrong"),
-                                       next_question(multi, ques_btns)])
+                      command=lambda: [ans_check(multi, ques.options[3],
+                                       ques.answer), next_question(multi),
+                                       disable_btns(btn_list)])
     option_4.place(x=550, y=300, anchor=CENTER)
-    ques_btns.append(question)
-    ques_btns.append(option_1)
-    ques_btns.append(option_2)
-    ques_btns.append(option_3)
-    ques_btns.append(option_4)
+    btn_list = [option_1, option_2, option_3, option_4]
+    multi.wait_window(multi)
 
 
 # Main Routine
@@ -152,8 +166,8 @@ q_list = []
 mc_list = []
 tf_list = []
 ww_list = []
-
 Questions("MC", "What is Ethan?", ["Wrong", "Right", "Dumbo", "Smarto"],
           "Wrong")
-
+Questions("MC", "What is Thomas", ["Wrong", "Right", "Dumbo", "Smarto"],
+          "Dumbo")
 menu()

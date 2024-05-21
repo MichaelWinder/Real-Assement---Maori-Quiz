@@ -5,6 +5,8 @@ bgd = "steel blue"
 hed = "chocolate2"
 btn = "peach puff"
 txt = "white"
+c_ans = "lime green"
+w_ans = "red"
 # Fonts
 ttl = "Arial Black"
 bse = "Arial"
@@ -98,6 +100,17 @@ def next_question(tk_screen):
     next_q_btn.place(x=400, y=400, anchor=N)
 
 
+def ans_check(tk_screen, answer, c_answer):
+    if answer == c_answer:
+        right = Label(tk_screen, text="CORRECT", bg=bgd, fg=c_ans,
+                      font=(ttl, 30), relief="solid", borderwidth=2)
+        right.place(x=400, y=160, anchor=N)
+    elif answer != c_answer:
+        wrong = Label(tk_screen, text="WRONG", bg=bgd, fg=w_ans,
+                      font=(ttl, 30), relief="solid", borderwidth=2)
+        wrong.place(x=400, y=160, anchor=N)
+
+
 def multi_choice(ques):
     multi = Tk()
     multi.title("Maori Quiz!")
@@ -116,16 +129,20 @@ def multi_choice(ques):
                        font=(ttl, 25))
     question_l.place(x=400, y=106, anchor=CENTER)
     option_1 = Button(multi, text=ques.options[0], font=(bse, 13), bg=btn,
-                      command=lambda: [print("Correct"), next_question(multi)])
+                      command=lambda: [ans_check(multi, ques.options[0],
+                                       ques.answer), next_question(multi)])
     option_1.place(x=250, y=300, anchor=CENTER)
     option_2 = Button(multi, text=ques.options[1], font=(bse, 13), bg=btn,
-                      command=lambda: [print("Wrong"), next_question(multi)])
+                      command=lambda: [ans_check(multi, ques.options[1],
+                                       ques.answer), next_question(multi)])
     option_2.place(x=350, y=300, anchor=CENTER)
     option_3 = Button(multi, text=ques.options[2], font=(bse, 13), bg=btn,
-                      command=lambda: [print("Wrong"), next_question(multi)])
+                      command=lambda: [ans_check(multi, ques.options[2],
+                                       ques.answer), next_question(multi)])
     option_3.place(x=450, y=300, anchor=CENTER)
     option_4 = Button(multi, text=ques.options[3], font=(bse, 13), bg=btn,
-                      command=lambda: [print("Wrong"), next_question(multi)])
+                      command=lambda: [ans_check(multi, ques.options[3],
+                                       ques.answer), next_question(multi)])
     option_4.place(x=550, y=300, anchor=CENTER)
     multi.wait_window(multi)
 
@@ -135,8 +152,6 @@ q_list = []
 mc_list = []
 tf_list = []
 ww_list = []
-continue_question = "E"
-btn_nums = ""
 Questions("MC", "What is Ethan?", ["Wrong", "Right", "Dumbo", "Smarto"],
           "Wrong")
 Questions("MC", "What is Thomas", ["Wrong", "Right", "Dumbo", "Smarto"],
