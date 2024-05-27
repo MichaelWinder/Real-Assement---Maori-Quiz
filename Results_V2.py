@@ -96,9 +96,9 @@ def menu():
                    command=lambda: [welcome.destroy(),
                                     whole_word_instructions(ww_list)])
     whole.place(x=550, y=300, anchor='nw')
-    results = Button(welcome, text="Results", font=(bse, 13), bg=btn,
-                     command=lambda: [welcome.destroy(), "results()"])
-    results.place(x=310, y=360, anchor='n')
+    result = Button(welcome, text="Results", font=(bse, 13), bg=btn,
+                    command=lambda: [welcome.destroy(), results()])
+    result.place(x=310, y=360, anchor='n')
     exit = Button(welcome, text="Exit", font=(bse, 13), bg=btn,
                   command=lambda: quit())
     exit.place(x=490, y=360, anchor='n')
@@ -342,6 +342,7 @@ def whole_word(ques):
 
 
 def play_a_btns(tk_screen):
+    tk_screen: Tk
     option_1 = Button(tk_screen, text="Multi Choice", font=(bse, 13), bg=btn,
                       command=lambda: [tk_screen.destroy(),
                                        multi_instructions(mc_list)])
@@ -351,7 +352,7 @@ def play_a_btns(tk_screen):
                           tf_list)])
     option_2.place(x=400, y=360, anchor=CENTER)
     option_3 = Button(tk_screen, text="Whole Word", font=(bse, 13), bg=btn,
-                      command=lambda: [tk_screen.destory(),
+                      command=lambda: [tk_screen.destroy(),
                                        whole_word_instructions(ww_list)])
     option_3.place(x=550, y=360, anchor=CENTER)
 
@@ -380,7 +381,7 @@ def play_again():
                           btn_list)])
     option_1.place(x=300, y=300, anchor=CENTER)
     option_2 = Button(play_a, text="Results", font=(bse, 13), bg=btn,
-                      command=lambda: ["results()", disable_btns(btn_list)])
+                      command=lambda: [play_a.destroy(), results()])
     option_2.place(x=500, y=300, anchor=CENTER)
     btn_list = [option_1, option_2]
     play_a.wait_window(play_a)
@@ -390,6 +391,31 @@ def question_totals(game_s, game_q):
     global total_score, total_questions
     total_score += game_s
     total_questions += game_q
+
+
+def results():
+    result = Tk()
+    result.title("Maori Quiz!")
+    result.geometry("+2500+100")
+    result.minsize(800, 500)
+    result.resizable(False, False)
+    result.configure(bg='steel blue')
+    # Creating the header
+    box = Canvas(result, width=800, height=75)
+    box.place(x=0, y=0, anchor=NW)
+    box.create_rectangle(0, 0, 801, 76, fill=hed, outline=hed)
+    box.pack()
+    Label(result, text="Results!", bg=hed,
+          fg=txt, font=(ttl, 34)).place(x=401, y=5, anchor='n')
+    Label(result, text=f"You Scored {total_score}/{total_questions} in "
+                       f"total!", bg=bgd, fg=txt, font=(ttl, 25)).place(
+        x=400, y=120, anchor=CENTER)
+    Label(result, text="Nice Job!\nThank you for playing my Maori Quiz",
+          bg=bgd, fg=txt, font=(ttl, 25)).place(x=400, y=210, anchor=CENTER)
+    option_1 = Button(result, text="Exit", font=(bse, 13),
+                      bg=btn, command=lambda: [result.destroy(), quit()])
+    option_1.place(x=400, y=300, anchor=CENTER)
+    result.wait_window(result)
 
 
 # Main Routine
