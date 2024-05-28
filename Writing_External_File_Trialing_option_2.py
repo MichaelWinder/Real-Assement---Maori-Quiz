@@ -1,4 +1,3 @@
-import pickle
 import random
 from tkinter import *
 
@@ -100,7 +99,8 @@ def menu():
                     command=lambda: [welcome.destroy(), results()])
     result.place(x=310, y=360, anchor='n')
     exit = Button(welcome, text="Exit", font=(bse, 13), bg=btn,
-                  command=lambda: quit())
+                  command=lambda: [save_questions("maori_quiz_questions.txt"),
+                                   quit()])
     exit.place(x=490, y=360, anchor='n')
     mainloop()
 
@@ -414,39 +414,43 @@ def results():
     Label(result, text="Nice Job!\nThank you for playing my Maori Quiz",
           bg=bgd, fg=txt, font=(ttl, 25)).place(x=400, y=210, anchor=CENTER)
     option_1 = Button(result, text="Exit", font=(bse, 13),
-                      bg=btn, command=lambda: [result.destroy(), quit()])
+                      bg=btn, command=lambda: [result.destroy()])
     option_1.place(x=400, y=300, anchor=CENTER)
     result.wait_window(result)
 
 
-def load_questions(filename):
-    try:  # Checks whether the pickle file exists
-        with open(filename, "rb") as f:
-            return pickle.load(f)  # Returns the saved comic list
-    except FileNotFoundError:  # If not found sets comic_list to original
-        # information
-        return [Questions("MC", "What is Ethan",
-                          ["Wrong", "Right", "Dumbo", "Smarto"], "Wrong"),
-                Questions("MC", "What is Thomas",
-                          ["Wrong", "Right", "Dumbo", "Smarto"], "Dumbo"),
-                Questions("MC", "What is James",
-                          ["Wrong", "Right", "Dumbo", "Smarto"], "Wrong"),
-                Questions("MC", "What is Lucas",
-                          ["Wrong", "Right", "Dumbo", "Smarto"], "Dumbo"),
-                Questions("MC", "What is Michael",
-                          ["Wrong", "Right", "Dumbo", "Smarto"], "Smarto"),
-                Questions("TF", "Is Ethan Wrong", ["True", "False"], "True"),
-                Questions("TF", "Is Ethan Wong", ["True", "False"], "False"),
-                Questions("TF", "Is Thomas", ["True", "False"], "False"),
-                Questions("TF", "Isn't Lucas", ["True", "False"], "True"),
-                Questions("WW", "Is Ethan actually cool tho", [], "Yes"),
-                Questions("WW", "Is Thomas actually cool tho", [], "Yes"),
-                Questions("WW", "Is Lucas actually cool tho", [], "Yes"),
-                Questions("WW", "Is James actually cool tho", [], "No")]
-
-
 # Main Routine
-q_list: list[Questions] = load_questions("maori_quiz_questions.txt")
+q_list: list[Questions] = [Questions("MC", "What is Ethan",
+                                     ["Wrong", "Right", "Dumbo", "Smarto"],
+                                     "Wrong"),
+                           Questions("MC", "What is Thomas",
+                                     ["Wrong", "Right", "Dumbo", "Smarto"],
+                                     "Dumbo"),
+                           Questions("MC", "What is James",
+                                     ["Wrong", "Right", "Dumbo", "Smarto"],
+                                     "Wrong"),
+                           Questions("MC", "What is Lucas",
+                                     ["Wrong", "Right", "Dumbo", "Smarto"],
+                                     "Dumbo"),
+                           Questions("MC", "What is Michael",
+                                     ["Wrong", "Right", "Dumbo", "Smarto"],
+                                     "Smarto"),
+                           Questions("TF", "Is Ethan Wrong", ["True", "False"],
+                                     "True"),
+                           Questions("TF", "Is Ethan Wong", ["True", "False"],
+                                     "False"),
+                           Questions("TF", "Is Thomas", ["True", "False"],
+                                     "False"),
+                           Questions("TF", "Isn't Lucas", ["True", "False"],
+                                     "True"),
+                           Questions("WW", "Is Ethan actually cool tho", [],
+                                     "Yes"),
+                           Questions("WW", "Is Thomas actually cool tho", [],
+                                     "Yes"),
+                           Questions("WW", "Is Lucas actually cool tho", [],
+                                     "Yes"),
+                           Questions("WW", "Is James actually cool tho", [],
+                                     "No")]
 mc_list = []
 tf_list = []
 ww_list = []

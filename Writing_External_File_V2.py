@@ -100,7 +100,8 @@ def menu():
                     command=lambda: [welcome.destroy(), results()])
     result.place(x=310, y=360, anchor='n')
     exit = Button(welcome, text="Exit", font=(bse, 13), bg=btn,
-                  command=lambda: quit())
+                  command=lambda: [save_questions("maori_quiz_questions.txt"),
+                                   quit()])
     exit.place(x=490, y=360, anchor='n')
     mainloop()
 
@@ -157,7 +158,7 @@ def multi_instructions(ques):
     Label(multi_i, text=instructions("multi"), bg=bgd, fg=txt,
           font=(bse, 15)).place(x=400, y=250, anchor=CENTER)
     Button(multi_i, text="Start", bg=btn, font=(bse, 15), command=lambda:
-    multi_i.destroy()).place(x=400, y=400, anchor=N)
+           multi_i.destroy()).place(x=400, y=400, anchor=N)
     multi_i.wait_window(multi_i)
     random.shuffle(ques)
     for question in ques:
@@ -233,7 +234,7 @@ def torf_instructions(ques):
     Label(torf_i, text=instructions("torf"), bg=bgd, fg=txt,
           font=(bse, 15)).place(x=400, y=250, anchor=CENTER)
     Button(torf_i, text="Start", bg=btn, font=(bse, 15), command=lambda:
-    torf_i.destroy()).place(x=400, y=400, anchor=N)
+           torf_i.destroy()).place(x=400, y=400, anchor=N)
     torf_i.wait_window(torf_i)
     random.shuffle(ques)
     for question in ques:
@@ -297,7 +298,7 @@ def whole_word_instructions(ques):
     Label(whole_i, text=instructions("whole"), bg=bgd, fg=txt,
           font=(bse, 15)).place(x=400, y=250, anchor=CENTER)
     Button(whole_i, text="Start", bg=btn, font=(bse, 15), command=lambda:
-    whole_i.destroy()).place(x=400, y=400, anchor=N)
+           whole_i.destroy()).place(x=400, y=400, anchor=N)
     whole_i.wait_window(whole_i)
     random.shuffle(ques)
     for question in ques:
@@ -414,7 +415,7 @@ def results():
     Label(result, text="Nice Job!\nThank you for playing my Maori Quiz",
           bg=bgd, fg=txt, font=(ttl, 25)).place(x=400, y=210, anchor=CENTER)
     option_1 = Button(result, text="Exit", font=(bse, 13),
-                      bg=btn, command=lambda: [result.destroy(), quit()])
+                      bg=btn, command=lambda: [result.destroy()])
     option_1.place(x=400, y=300, anchor=CENTER)
     result.wait_window(result)
 
@@ -443,6 +444,11 @@ def load_questions(filename):
                 Questions("WW", "Is Thomas actually cool tho", [], "Yes"),
                 Questions("WW", "Is Lucas actually cool tho", [], "Yes"),
                 Questions("WW", "Is James actually cool tho", [], "No")]
+
+
+def save_questions(filename):
+    with open(filename, "wb") as f:
+        pickle.dump(q_list, f)
 
 
 # Main Routine
