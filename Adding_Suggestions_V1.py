@@ -63,11 +63,15 @@ def instructions(itype):
                "Your total score will be shown at the end\nSo do well!"
 
 
+def no_action():
+    pass
+
+
 def menu():
     set_lists()
     welcome = Tk()
     welcome.title("Maori Quiz!")
-    welcome.geometry("+2500+100")
+    welcome.protocol("WM_DELETE_WINDOW", no_action)
     welcome.minsize(800, 500)
     welcome.resizable(False, False)
     welcome.configure(bg='steel blue')
@@ -96,13 +100,10 @@ def menu():
                    command=lambda: [welcome.destroy(),
                                     whole_word_instructions(ww_list)])
     whole.place(x=550, y=300, anchor='nw')
-    result = Button(welcome, text="Results", font=(bse, 13), bg=btn,
-                    command=lambda: [welcome.destroy(), results()])
-    result.place(x=310, y=360, anchor='n')
     exit = Button(welcome, text="Exit", font=(bse, 13), bg=btn,
                   command=lambda: [save_questions("maori_quiz_questions.txt"),
                                    quit()])
-    exit.place(x=490, y=360, anchor='n')
+    exit.place(x=400, y=360, anchor='n')
     mainloop()
 
 
@@ -142,7 +143,7 @@ def multi_instructions(ques):
     game_questions = 0
     multi_i = Tk()
     multi_i.title("Maori Quiz!")
-    multi_i.geometry("+2500+100")
+    multi_i.protocol("WM_DELETE_WINDOW", no_action)
     multi_i.minsize(800, 500)
     multi_i.resizable(False, False)
     multi_i.configure(bg='steel blue')
@@ -170,7 +171,7 @@ def multi_instructions(ques):
 def multi_choice(ques):
     multi = Tk()
     multi.title("Maori Quiz!")
-    multi.geometry("+2500+100")
+    multi.protocol("WM_DELETE_WINDOW", no_action)
     multi.minsize(800, 500)
     multi.resizable(False, False)
     multi.configure(bg='steel blue')
@@ -218,7 +219,7 @@ def torf_instructions(ques):
     game_questions = 0
     torf_i = Tk()
     torf_i.title("Maori Quiz!")
-    torf_i.geometry("+2500+100")
+    torf_i.protocol("WM_DELETE_WINDOW", no_action)
     torf_i.minsize(800, 500)
     torf_i.resizable(False, False)
     torf_i.configure(bg='steel blue')
@@ -246,7 +247,7 @@ def torf_instructions(ques):
 def t_or_f(ques):
     torf = Tk()
     torf.title("Maori Quiz!")
-    torf.geometry("+2500+100")
+    torf.protocol("WM_DELETE_WINDOW", no_action)
     torf.minsize(800, 500)
     torf.resizable(False, False)
     torf.configure(bg='steel blue')
@@ -282,7 +283,7 @@ def whole_word_instructions(ques):
     game_questions = 0
     whole_i = Tk()
     whole_i.title("Maori Quiz!")
-    whole_i.geometry("+2500+100")
+    whole_i.protocol("WM_DELETE_WINDOW", no_action)
     whole_i.minsize(800, 500)
     whole_i.resizable(False, False)
     whole_i.configure(bg='steel blue')
@@ -310,7 +311,7 @@ def whole_word_instructions(ques):
 def whole_word(ques):
     whole = Tk()
     whole.title("Maori Quiz!")
-    whole.geometry("+2500+100")
+    whole.protocol("WM_DELETE_WINDOW", no_action)
     whole.minsize(800, 500)
     whole.resizable(False, False)
     whole.configure(bg='steel blue')
@@ -362,7 +363,7 @@ def play_a_btns(tk_screen):
 def play_again():
     play_a = Tk()
     play_a.title("Maori Quiz!")
-    play_a.geometry("+2500+100")
+    play_a.protocol("WM_DELETE_WINDOW", no_action)
     play_a.minsize(800, 500)
     play_a.resizable(False, False)
     play_a.configure(bg='steel blue')
@@ -398,7 +399,7 @@ def question_totals(game_s, game_q):
 def results():
     result = Tk()
     result.title("Maori Quiz!")
-    result.geometry("+2500+100")
+    result.protocol("WM_DELETE_WINDOW", no_action)
     result.minsize(800, 500)
     result.resizable(False, False)
     result.configure(bg='steel blue')
@@ -407,16 +408,26 @@ def results():
     box.place(x=0, y=0, anchor=NW)
     box.create_rectangle(0, 0, 801, 76, fill=hed, outline=hed)
     box.pack()
+    percentage = total_score/total_questions * 100
     Label(result, text="Results!", bg=hed,
           fg=txt, font=(ttl, 34)).place(x=401, y=5, anchor='n')
     Label(result, text=f"You Scored {total_score}/{total_questions} in "
-                       f"total!", bg=bgd, fg=txt, font=(ttl, 25)).place(
-        x=400, y=120, anchor=CENTER)
-    Label(result, text="Nice Job!\nThank you for playing my Maori Quiz",
-          bg=bgd, fg=txt, font=(ttl, 25)).place(x=400, y=210, anchor=CENTER)
+                       f"total!\nThat's {percentage}%", bg=bgd, fg=txt,
+          font=(ttl, 25)).place(x=400, y=150, anchor=CENTER)
+    if percentage < 30:
+        Label(result, text="You are quite bad actually, Study More!", bg=bgd,
+              fg=txt, font=(ttl, 25)).place(x=400, y=230, anchor=CENTER)
+    elif percentage < 75:
+        Label(result, text="You are on the right track, Good Try!", bg=bgd,
+              fg=txt, font=(ttl, 25)).place(x=400, y=230, anchor=CENTER)
+    else:
+        Label(result, text="WOW you did really well, Good Job!", bg=bgd,
+              fg=txt, font=(ttl, 25)).place(x=400, y=230, anchor=CENTER)
+    Label(result, text="Thank you for playing my Maori Quiz!",
+          bg=bgd, fg=txt, font=(ttl, 25)).place(x=400, y=300, anchor=CENTER)
     option_1 = Button(result, text="Exit", font=(bse, 13),
-                      bg=btn, command=lambda: [result.destroy()])
-    option_1.place(x=400, y=300, anchor=CENTER)
+                      bg=btn, command=lambda: [result.destroy(), quit()])
+    option_1.place(x=400, y=380, anchor=CENTER)
     result.wait_window(result)
 
 

@@ -407,16 +407,26 @@ def results():
     box.place(x=0, y=0, anchor=NW)
     box.create_rectangle(0, 0, 801, 76, fill=hed, outline=hed)
     box.pack()
+    percentage = total_score/total_questions * 100
     Label(result, text="Results!", bg=hed,
           fg=txt, font=(ttl, 34)).place(x=401, y=5, anchor='n')
     Label(result, text=f"You Scored {total_score}/{total_questions} in "
-                       f"total!", bg=bgd, fg=txt, font=(ttl, 25)).place(
-        x=400, y=120, anchor=CENTER)
-    Label(result, text="Nice Job!\nThank you for playing my Maori Quiz",
-          bg=bgd, fg=txt, font=(ttl, 25)).place(x=400, y=210, anchor=CENTER)
+                       f"total!\nThat's {percentage}%", bg=bgd, fg=txt,
+          font=(ttl, 25)).place(x=400, y=150, anchor=CENTER)
+    if percentage < 30:
+        Label(result, text="You are quite bad actually, Study More!", bg=bgd,
+              fg=txt, font=(ttl, 25)).place(x=400, y=230, anchor=CENTER)
+    elif percentage < 75:
+        Label(result, text="You are on the right track, Good Try!", bg=bgd,
+              fg=txt, font=(ttl, 25)).place(x=400, y=230, anchor=CENTER)
+    else:
+        Label(result, text="WOW you did really well, Good Job!", bg=bgd,
+              fg=txt, font=(ttl, 25)).place(x=400, y=230, anchor=CENTER)
+    Label(result, text="Thank you for playing my Maori Quiz!",
+          bg=bgd, fg=txt, font=(ttl, 25)).place(x=400, y=300, anchor=CENTER)
     option_1 = Button(result, text="Exit", font=(bse, 13),
-                      bg=btn, command=lambda: [result.destroy()])
-    option_1.place(x=400, y=300, anchor=CENTER)
+                      bg=btn, command=lambda: [result.destroy(), quit()])
+    option_1.place(x=400, y=380, anchor=CENTER)
     result.wait_window(result)
 
 

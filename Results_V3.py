@@ -1,4 +1,3 @@
-import pickle
 import random
 from tkinter import *
 
@@ -21,6 +20,7 @@ class Questions:
         self.text = text
         self.options = options
         self.answer = answer
+        q_list.append(self)
 
 
 def set_lists():
@@ -100,8 +100,7 @@ def menu():
                     command=lambda: [welcome.destroy(), results()])
     result.place(x=310, y=360, anchor='n')
     exit = Button(welcome, text="Exit", font=(bse, 13), bg=btn,
-                  command=lambda: [save_questions("maori_quiz_questions.txt"),
-                                   quit()])
+                  command=lambda: quit())
     exit.place(x=490, y=360, anchor='n')
     mainloop()
 
@@ -335,8 +334,7 @@ def whole_word(ques):
     user_answer.focus()
     enter_btn = Button(whole, text="Enter", font=(bse, 13), bg=btn,
                        command=lambda: [ans_check(whole, ans_var.get().title(),
-                                                  ques.answer),
-                                        next_question(whole),
+                                        ques.answer), next_question(whole),
                                         disable_btns(btn_list)])
     enter_btn.place(x=400, y=360, anchor=N)
     btn_list = [enter_btn]
@@ -430,39 +428,8 @@ def results():
     result.wait_window(result)
 
 
-def load_questions(filename):
-    try:  # Checks whether the pickle file exists
-        with open(filename, "rb") as f:
-            return pickle.load(f)  # Returns the saved comic list
-    except FileNotFoundError:  # If not found sets comic_list to original
-        # information
-        return [Questions("MC", "What is Ethan",
-                          ["Wrong", "Right", "Dumbo", "Smarto"], "Wrong"),
-                Questions("MC", "What is Thomas",
-                          ["Wrong", "Right", "Dumbo", "Smarto"], "Dumbo"),
-                Questions("MC", "What is James",
-                          ["Wrong", "Right", "Dumbo", "Smarto"], "Wrong"),
-                Questions("MC", "What is Lucas",
-                          ["Wrong", "Right", "Dumbo", "Smarto"], "Dumbo"),
-                Questions("MC", "What is Michael",
-                          ["Wrong", "Right", "Dumbo", "Smarto"], "Smarto"),
-                Questions("TF", "Is Ethan Wrong", ["True", "False"], "True"),
-                Questions("TF", "Is Ethan Wong", ["True", "False"], "False"),
-                Questions("TF", "Is Thomas", ["True", "False"], "False"),
-                Questions("TF", "Isn't Lucas", ["True", "False"], "True"),
-                Questions("WW", "Is Ethan actually cool tho", [], "Yes"),
-                Questions("WW", "Is Thomas actually cool tho", [], "Yes"),
-                Questions("WW", "Is Lucas actually cool tho", [], "Yes"),
-                Questions("WW", "Is James actually cool tho", [], "No")]
-
-
-def save_questions(filename):
-    with open(filename, "wb") as f:
-        pickle.dump(q_list, f)
-
-
 # Main Routine
-q_list: list[Questions] = load_questions("maori_quiz_questions.txt")
+q_list = []
 mc_list = []
 tf_list = []
 ww_list = []
@@ -470,6 +437,25 @@ game_score = 0
 game_questions = 0
 total_score = 0
 total_questions = 0
+Questions("MC", "What is Ethan", ["Wrong", "Right", "Dumbo", "Smarto"],
+          "Wrong")
+Questions("MC", "What is Thomas", ["Wrong", "Right", "Dumbo", "Smarto"],
+          "Dumbo")
+Questions("MC", "What is James", ["Wrong", "Right", "Dumbo", "Smarto"],
+          "Wrong")
+Questions("MC", "What is Lucas", ["Wrong", "Right", "Dumbo", "Smarto"],
+          "Dumbo")
+Questions("MC", "What is Michael", ["Wrong", "Right", "Dumbo", "Smarto"],
+          "Smarto")
 
+Questions("TF", "Is Ethan Wrong", ["True", "False"], "True")
+Questions("TF", "Is Ethan Wong", ["True", "False"], "False")
+Questions("TF", "Is Thomas", ["True", "False"], "False")
+Questions("TF", "Isn't Lucas", ["True", "False"], "True")
+
+Questions("WW", "Is Ethan actually cool tho", [], "Yes")
+Questions("WW", "Is Thomas actually cool tho", [], "Yes")
+Questions("WW", "Is Lucas actually cool tho", [], "Yes")
+Questions("WW", "Is James actually cool tho", [], "No")
 while True:
     menu()
