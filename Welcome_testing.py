@@ -1,5 +1,4 @@
 from tkinter import *
-
 # Colours
 bgd = "steel blue"
 hed = "chocolate2"

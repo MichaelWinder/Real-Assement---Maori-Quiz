@@ -1,3 +1,7 @@
+""" This program is a quiz game for learning Maori. You can choose from 3
+different games, they are Multiple Choice, True or False, and Whole
+Word Answers. Each game gives a score out of 10 and when you quit you are
+given a total score of all games you played and their totals added together """
 import pickle
 import random
 from tkinter import *
