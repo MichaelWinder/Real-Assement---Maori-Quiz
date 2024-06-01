@@ -33,7 +33,7 @@
       <recent name="C:\Users\Micha\OneDrive - Middleton Grange School\Real Assement - Maori Quiz" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.Writing_External_File_Testing">
+  <component name="RunManager" selected="Python.Final_Program_V1">
     <configuration name="Final_Program_V1" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="Real Assement - Maori Quiz" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -141,10 +141,10 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.Final_Program_V1" />
         <item itemvalue="Python.Writing_External_File_Testing" />
         <item itemvalue="Python.Results_Testing" />
         <item itemvalue="Python.Play_Again_Testing" />
-        <item itemvalue="Python.Final_Program_V1" />
         <item itemvalue="Python.Real_Questions_V1" />
       </list>
     </recent_temporary>

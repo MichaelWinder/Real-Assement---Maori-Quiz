@@ -460,7 +460,7 @@ def results():
     option_1 = Button(result, text="Exit", font=(bse, 13),
                       bg=btn, command=lambda: [save_questions(
                                                "maori_quiz_questions.txt"),
-                                               quit()])
+                                               result.destroy(), quit()])
     option_1.place(x=400, y=380, anchor=CENTER)
     result.wait_window(result)  # Waits for button press
 
