@@ -2,26 +2,6 @@ import pickle
 import random
 from tkinter import *
 
-# Colours
-bgd = "steel blue"
-hed = "chocolate2"
-btn = "peach puff"
-txt = "white"
-c_ans = "lime green"
-w_ans = "red"
-# Fonts
-ttl = "Arial Black"
-bse = "Arial"
-bld = "Bold"
-# Setting Variables to _
-mc_list = []
-tf_list = []
-ww_list = []
-game_score = 0
-game_questions = 0
-total_score = 0
-total_questions = 0
-
 
 # Class for all the questions
 class Questions:
@@ -52,8 +32,7 @@ def instructions(itype):
                "Multiple choice button gives 10 multiple choice questions.\n" \
                "The True or False button gives 10 True or false questions.\n" \
                "The Whole word button gives 10 questions that require a " \
-               "whole word answer.\nClick on Results to get your results.\n" \
-               "Click on Exit to end the program."
+               "whole word answer.\nClick on Exit to end the program."
     elif itype == "multi":
         return "A Question will be displayed and you can pick from four " \
                "options.\nIf you choose the right answer you will receive a " \
@@ -384,12 +363,13 @@ def whole_word(ques):
                                         next_question(whole),
                                         disable_btns(btn_list)])
     enter_btn.place(x=400, y=360, anchor=N)
-    btn_list = [enter_btn]
-    whole.wait_window(whole)
+    btn_list = [enter_btn]  # Btns to disable
+    whole.wait_window(whole)  # Waits for button press
 
 
+# Creates buttons for play_again function
 def play_a_btns(tk_screen):
-    tk_screen: Tk
+    tk_screen: Tk  # Tells tk_screen that it is a tk_object
     option_1 = Button(tk_screen, text="Multi Choice", font=(bse, 13), bg=btn,
                       command=lambda: [tk_screen.destroy(),
                                        multi_instructions(mc_list)])
@@ -404,6 +384,7 @@ def play_a_btns(tk_screen):
     option_3.place(x=550, y=360, anchor=CENTER)
 
 
+# Allows the user to play another game
 def play_again():
     play_a = Tk()
     play_a.title("Maori Quiz!")
@@ -417,6 +398,7 @@ def play_again():
     box.place(x=0, y=0, anchor=NW)
     box.create_rectangle(0, 0, 801, 76, fill=hed, outline=hed)
     box.pack()
+    # Text labels
     Label(play_a, text="Play Again?", bg=hed,
           fg=txt, font=(ttl, 34)).place(x=401, y=5, anchor='n')
     Label(play_a, text=f"You Scored {game_score}/{game_questions}!", bg=bgd,
@@ -431,16 +413,18 @@ def play_again():
     option_2 = Button(play_a, text="Results", font=(bse, 13), bg=btn,
                       command=lambda: [play_a.destroy(), results()])
     option_2.place(x=500, y=300, anchor=CENTER)
-    btn_list = [option_1, option_2]
-    play_a.wait_window(play_a)
+    btn_list = [option_1, option_2]  # List for buttons to disable
+    play_a.wait_window(play_a)  # Waits for button press
 
 
+# Adds game score + questions to total score + questions
 def question_totals(game_s, game_q):
     global total_score, total_questions
     total_score += game_s
     total_questions += game_q
 
 
+# Shows total results over all games
 def results():
     result = Tk()
     result.title("Maori Quiz!")
@@ -454,12 +438,14 @@ def results():
     box.place(x=0, y=0, anchor=NW)
     box.create_rectangle(0, 0, 801, 76, fill=hed, outline=hed)
     box.pack()
+    # Finds results percentage
     percentage = total_score / total_questions * 100
     Label(result, text="Results!", bg=hed,
           fg=txt, font=(ttl, 34)).place(x=401, y=5, anchor='n')
     Label(result, text=f"You Scored {total_score}/{total_questions} in "
                        f"total!\nThat's {percentage}%", bg=bgd, fg=txt,
           font=(ttl, 25)).place(x=400, y=150, anchor=CENTER)
+    # Depending on percentage give personalised message
     if percentage < 30:
         Label(result, text="You are quite bad actually, Study More!", bg=bgd,
               fg=txt, font=(ttl, 25)).place(x=400, y=230, anchor=CENTER)
@@ -472,17 +458,20 @@ def results():
     Label(result, text="Thank you for playing my Maori Quiz!",
           bg=bgd, fg=txt, font=(ttl, 25)).place(x=400, y=300, anchor=CENTER)
     option_1 = Button(result, text="Exit", font=(bse, 13),
-                      bg=btn, command=lambda: [result.destroy(), quit()])
+                      bg=btn, command=lambda: [save_questions(
+                                               "maori_quiz_questions.txt"),
+                                               quit()])
     option_1.place(x=400, y=380, anchor=CENTER)
-    result.wait_window(result)
+    result.wait_window(result)  # Waits for button press
 
 
+# Returns list of questions from pickle file
 def load_questions(filename):
     try:  # Checks whether the pickle file exists
         with open(filename, "rb") as f:
-            return pickle.load(f)  # Returns the saved comic list
-    except FileNotFoundError:  # If not found sets comic_list to original
-        # information
+            return pickle.load(f)  # Returns the saved question list
+    except FileNotFoundError:  # If not found sets q_list to original
+        # questions
         return [Questions("TF", "Rua means Two", ["True", "False"], "True"),
                 Questions("TF", "Wha means Three", ["True", "False"], "False"),
                 Questions("TF", "Food means Kai", ["True", "False"], "True"),
@@ -520,14 +509,14 @@ def load_questions(filename):
                 Questions("MC", "Mahau means?",
                           ["Hut", "Farm", "House", "River"], "Hut"),
                 Questions("MC", "Farm means?",
-                          ["Pamu", "Moana", "Mara", "One one"], "Pamu"),
+                          ["Pamu", "Moana", "Mara", "Oneone"], "Pamu"),
                 Questions("MC", "English means?", ["Reo Pakeha", "Reo Paniora",
                                                    "Reo Kariki", "Huanui"],
                           "Reo Pakeha"),
                 Questions("WW", "What is Rua in English?", [], "Two"),
                 Questions("WW", "What is Nine in Maori?", [], "Iwa"),
                 Questions("WW", "What is Tekau in English?", [], "Ten"),
-                Questions("WW", "What is War in English?", [], "Eight"),
+                Questions("WW", "What is Waru in English?", [], "Eight"),
                 Questions("WW", "What is one in Maori?", [], "Tahi"),
                 Questions("WW", "What is Seven in Maori?", [], "Whitu"),
                 Questions("WW", "What is Five in Maori?", [], "Rima"),
@@ -536,10 +525,31 @@ def load_questions(filename):
                 Questions("WW", "What is Four in Maori?", [], "Wha")]
 
 
+# Overwrites or creates pickle file with questions
 def save_questions(filename):
     with open(filename, "wb") as f:
         pickle.dump(q_list, f)
 
+
+# Colours
+bgd = "steel blue"
+hed = "chocolate2"
+btn = "peach puff"
+txt = "white"
+c_ans = "lime green"
+w_ans = "red"
+# Fonts
+ttl = "Arial Black"
+bse = "Arial"
+bld = "Bold"
+# Setting Variables to _
+mc_list = []
+tf_list = []
+ww_list = []
+game_score = 0
+game_questions = 0
+total_score = 0
+total_questions = 0
 
 # Main Routine
 q_list: list[Questions] = load_questions("maori_quiz_questions.txt")

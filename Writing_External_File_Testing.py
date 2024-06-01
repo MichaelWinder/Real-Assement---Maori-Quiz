@@ -2,27 +2,8 @@ import pickle
 import random
 from tkinter import *
 
-# Colours
-bgd = "steel blue"
-hed = "chocolate2"
-btn = "peach puff"
-txt = "white"
-c_ans = "lime green"
-w_ans = "red"
-# Fonts
-ttl = "Arial Black"
-bse = "Arial"
-bld = "Bold"
-# Setting Variables to _
-mc_list = []
-tf_list = []
-ww_list = []
-game_score = 0
-game_questions = 0
-total_score = 0
-total_questions = 0
 
-
+# Class for all the questions
 class Questions:
     def __init__(self, question_type, text, options, answer):
         self.question_type = question_type
@@ -31,6 +12,7 @@ class Questions:
         self.answer = answer
 
 
+# Divides up the questions to their designated list
 def set_lists():
     for question in q_list:
         if question.question_type == "MC":
@@ -43,14 +25,14 @@ def set_lists():
             ww_list.append(question)
 
 
+# Instructions for the games
 def instructions(itype):
     if itype == "welcome":
         return "Click on one of the five buttons below.\nThe " \
                "Multiple choice button gives 10 multiple choice questions.\n" \
                "The True or False button gives 10 True or false questions.\n" \
                "The Whole word button gives 10 questions that require a " \
-               "whole word answer.\nClick on Results to get your results.\n" \
-               "Click on Exit to end the program."
+               "whole word answer.\nClick on Exit to end the program."
     elif itype == "multi":
         return "A Question will be displayed and you can pick from four " \
                "options.\nIf you choose the right answer you will receive a " \
@@ -71,12 +53,14 @@ def instructions(itype):
                "Your total score will be shown at the end\nSo do well!"
 
 
+# Stops items from having an action
 def no_action():
     pass
 
 
+# Menu page
 def menu():
-    set_lists()
+    set_lists()  # Sets the question lists
     welcome = Tk()
     welcome.title("Maori Quiz!")
     welcome.protocol("WM_DELETE_WINDOW", no_action)
@@ -116,18 +100,20 @@ def menu():
     mainloop()
 
 
+# Adds a next question button that deletes old question screen
 def next_question(tk_screen):
     next_q_btn = Button(tk_screen, text="Next Question", font=(bse, 13),
                         bg=btn, command=lambda: tk_screen.destroy())
     next_q_btn.place(x=400, y=400, anchor=N)
 
 
+# Checks if inputted answer is correct
 def ans_check(tk_screen, answer, c_answer):
     if answer == c_answer:
         right = Label(tk_screen, text="CORRECT", bg=bgd, fg=c_ans,
                       font=(ttl, 35), relief="raised")
         right.place(x=400, y=160, anchor=N)
-        global game_score
+        global game_score  # Adds one to the score
         game_score += 1
     elif answer != c_answer:
         wrong = Label(tk_screen, text="WRONG", bg=bgd, fg=w_ans,
@@ -137,19 +123,21 @@ def ans_check(tk_screen, answer, c_answer):
                                                f"{c_answer}", bg=bgd,
                                fg=txt, font=(bse, 14), relief="sunken")
         correct_answer.place(x=400, y=250, anchor=N)
-    global game_questions
+    global game_questions  # Adds one to the questions asked
     game_questions += 1
 
 
+# Stops user from pressing unwanted buttons
 def disable_btns(btn_list):
     for btn in btn_list:
-        btn["state"] = DISABLED
+        btn["state"] = DISABLED  # Disables the button
 
 
+# Instruction page for Multi Choice questions and question loop
 def multi_instructions(ques):
     global game_score, game_questions
     game_score = 0
-    game_questions = 0
+    game_questions = 0  # Sets current game score and questions to 0
     multi_i = Tk()
     multi_i.title("Maori Quiz!")
     multi_i.protocol("WM_DELETE_WINDOW", no_action)
@@ -164,20 +152,24 @@ def multi_instructions(ques):
     box.pack()
     Label(multi_i, text="Multiple Choice Questions!", bg=hed,
           fg=txt, font=(ttl, 34)).place(x=401, y=5, anchor='n')
+    # Text for instructions
     Label(multi_i, text="Instructions", bg=bgd, fg=txt,
           font=(ttl, 25)).place(x=400, y=106, anchor=CENTER)
     Label(multi_i, text=instructions("multi"), bg=bgd, fg=txt,
           font=(bse, 15)).place(x=400, y=250, anchor=CENTER)
+    # Start Button
     Button(multi_i, text="Start", bg=btn, font=(bse, 15), command=lambda:
            multi_i.destroy()).place(x=400, y=400, anchor=N)
+    # Waits for the button press
     multi_i.wait_window(multi_i)
-    random.shuffle(ques)
+    random.shuffle(ques)  # Shuffles the order of questions
     for question in ques:
         multi_choice(question)
-    question_totals(game_score, game_questions)
+    question_totals(game_score, game_questions)  # Sends game info to results
     play_again()
 
 
+# Asks Multi Choice Questions
 def multi_choice(ques):
     multi = Tk()
     multi.title("Maori Quiz!")
@@ -193,12 +185,14 @@ def multi_choice(ques):
     box.pack()
     Label(multi, text="Multiple Choice Questions!", bg=hed,
           fg=txt, font=(ttl, 34)).place(x=401, y=5, anchor='n')
+    # Question text
     question_l = Label(multi, text=ques.text, bg=bgd, fg=txt,
                        font=(ttl, 25))
     question_l.place(x=400, y=106, anchor=CENTER)
     ans_list = [ques.options[0], ques.options[1], ques.options[2],
                 ques.options[3]]
-    random.shuffle(ans_list)
+    random.shuffle(ans_list)  # Shuffles the order of the options
+    # Option answer buttons
     option_1 = Button(multi, text=ans_list[0], font=(bse, 13), bg=btn,
                       command=lambda: [ans_check(multi, ans_list[0],
                                                  ques.answer),
@@ -223,14 +217,16 @@ def multi_choice(ques):
                                        next_question(multi),
                                        disable_btns(btn_list)])
     option_4.place(x=610, y=300, anchor=CENTER)
+    # List of btns to disable
     btn_list = [option_1, option_2, option_3, option_4]
-    multi.wait_window(multi)
+    multi.wait_window(multi)  # Waits for button press
 
 
+# Instruction page of True or False questions and question loop
 def torf_instructions(ques):
     global game_score, game_questions
     game_score = 0
-    game_questions = 0
+    game_questions = 0  # Sets current game score and questions to 0
     torf_i = Tk()
     torf_i.title("Maori Quiz!")
     torf_i.protocol("WM_DELETE_WINDOW", no_action)
@@ -245,20 +241,22 @@ def torf_instructions(ques):
     box.pack()
     Label(torf_i, text="True or False Questions!", bg=hed,
           fg=txt, font=(ttl, 34)).place(x=401, y=5, anchor='n')
+    # Text for Instructions
     Label(torf_i, text="Instructions", bg=bgd, fg=txt,
           font=(ttl, 25)).place(x=400, y=106, anchor=CENTER)
     Label(torf_i, text=instructions("torf"), bg=bgd, fg=txt,
           font=(bse, 15)).place(x=400, y=250, anchor=CENTER)
     Button(torf_i, text="Start", bg=btn, font=(bse, 15), command=lambda:
            torf_i.destroy()).place(x=400, y=400, anchor=N)
-    torf_i.wait_window(torf_i)
-    random.shuffle(ques)
+    torf_i.wait_window(torf_i)  # Waits for button press
+    random.shuffle(ques)  # Shuffles order of questions
     for question in ques:
-        t_or_f(question)
-    question_totals(game_score, game_questions)
+        t_or_f(question)  # Question loop
+    question_totals(game_score, game_questions)  # Sends game info to results
     play_again()
 
 
+# Asks True or False Questions
 def t_or_f(ques):
     torf = Tk()
     torf.title("Maori Quiz!")
@@ -274,9 +272,11 @@ def t_or_f(ques):
     box.pack()
     Label(torf, text="True or False Questions!", bg=hed,
           fg=txt, font=(ttl, 34)).place(x=401, y=5, anchor='n')
+    # Question text
     question_l = Label(torf, text=ques.text, bg=bgd, fg=txt,
                        font=(ttl, 25))
     question_l.place(x=400, y=106, anchor=CENTER)
+    # True and False buttons
     option_1 = Button(torf, text=ques.options[0], font=(bse, 13), bg=btn,
                       command=lambda: [ans_check(torf, ques.options[0],
                                                  ques.answer),
@@ -289,14 +289,15 @@ def t_or_f(ques):
                                        next_question(torf),
                                        disable_btns(btn_list)])
     option_2.place(x=500, y=300, anchor=CENTER)
-    btn_list = [option_1, option_2]
-    torf.wait_window(torf)
+    btn_list = [option_1, option_2]  # Btns to be disabled
+    torf.wait_window(torf)  # Waits for button press
 
 
+# Instruction page of Whole Word questions and question loop
 def whole_word_instructions(ques):
     global game_score, game_questions
     game_score = 0
-    game_questions = 0
+    game_questions = 0  # Sets current game score and questions to 0
     whole_i = Tk()
     whole_i.title("Maori Quiz!")
     whole_i.protocol("WM_DELETE_WINDOW", no_action)
@@ -311,20 +312,22 @@ def whole_word_instructions(ques):
     box.pack()
     Label(whole_i, text="Whole Word Questions!", bg=hed,
           fg=txt, font=(ttl, 34)).place(x=401, y=5, anchor='n')
+    # Text for Instructions
     Label(whole_i, text="Instructions", bg=bgd, fg=txt,
           font=(ttl, 25)).place(x=400, y=106, anchor=CENTER)
     Label(whole_i, text=instructions("whole"), bg=bgd, fg=txt,
           font=(bse, 15)).place(x=400, y=250, anchor=CENTER)
     Button(whole_i, text="Start", bg=btn, font=(bse, 15), command=lambda:
            whole_i.destroy()).place(x=400, y=400, anchor=N)
-    whole_i.wait_window(whole_i)
-    random.shuffle(ques)
+    whole_i.wait_window(whole_i)  # Waits for button press
+    random.shuffle(ques)  # Shuffles order of questions
     for question in ques:
-        whole_word(question)
-    question_totals(game_score, game_questions)
+        whole_word(question)  # Question loop
+    question_totals(game_score, game_questions)  # Sends game info to results
     play_again()
 
 
+# Asks Whole Word Questions
 def whole_word(ques):
     whole = Tk()
     whole.title("Maori Quiz!")
@@ -342,12 +345,14 @@ def whole_word(ques):
     box.pack()
     Label(whole, text="Whole Word Questions!", bg=hed,
           fg=txt, font=(ttl, 34)).place(x=401, y=5, anchor='n')
+    # Question text
     question_l = Label(whole, text=ques.text, bg=bgd, fg=txt,
                        font=(ttl, 25))
     question_l.place(x=400, y=106, anchor=CENTER)
     enter = Label(whole, text="Enter Answer Below", bg=bgd, fg=txt,
                   font=(ttl, 25))
     enter.place(x=400, y=320, anchor=S)
+    # Answer box for user
     user_answer = Entry(whole, bg=bgd, fg=txt, font=(bse, 20),
                         textvariable=ans_var)
     user_answer.place(x=400, y=320, anchor=N)
@@ -358,8 +363,8 @@ def whole_word(ques):
                                         next_question(whole),
                                         disable_btns(btn_list)])
     enter_btn.place(x=400, y=360, anchor=N)
-    btn_list = [enter_btn]
-    whole.wait_window(whole)
+    btn_list = [enter_btn]  # Btns to disable
+    whole.wait_window(whole)  # Waits for button press
 
 
 def play_a_btns(tk_screen):
@@ -446,7 +451,9 @@ def results():
     Label(result, text="Thank you for playing my Maori Quiz!",
           bg=bgd, fg=txt, font=(ttl, 25)).place(x=400, y=300, anchor=CENTER)
     option_1 = Button(result, text="Exit", font=(bse, 13),
-                      bg=btn, command=lambda: [result.destroy(), quit()])
+                      bg=btn, command=lambda: [save_questions(
+                                               "maori_quiz_questions.txt"),
+                                               quit()])
     option_1.place(x=400, y=380, anchor=CENTER)
     result.wait_window(result)
 
@@ -454,9 +461,11 @@ def results():
 def load_questions(filename):
     try:  # Checks whether the pickle file exists
         with open(filename, "rb") as f:
+            print("File Found")
             return pickle.load(f)  # Returns the saved comic list
     except FileNotFoundError:  # If not found sets comic_list to original
         # information
+        print("File not found")
         return [Questions("TF", "Rua means Two", ["True", "False"], "True"),
                 Questions("TF", "Wha means Three", ["True", "False"], "False"),
                 Questions("TF", "Food means Kai", ["True", "False"], "True"),
@@ -494,7 +503,7 @@ def load_questions(filename):
                 Questions("MC", "Mahau means?",
                           ["Hut", "Farm", "House", "River"], "Hut"),
                 Questions("MC", "Farm means?",
-                          ["Pamu", "Moana", "Mara", "One one"], "Pamu"),
+                          ["Pamu", "Moana", "Mara", "Oneone"], "Pamu"),
                 Questions("MC", "English means?", ["Reo Pakeha", "Reo Paniora",
                                                    "Reo Kariki", "Huanui"],
                           "Reo Pakeha"),
@@ -513,9 +522,32 @@ def load_questions(filename):
 def save_questions(filename):
     with open(filename, "wb") as f:
         pickle.dump(q_list, f)
+    with open(filename, "rb") as f:
+        print("Items from Pickle File")
+        print(pickle.load(f))
+
+
+# Colours
+bgd = "steel blue"
+hed = "chocolate2"
+btn = "peach puff"
+txt = "white"
+c_ans = "lime green"
+w_ans = "red"
+# Fonts
+ttl = "Arial Black"
+bse = "Arial"
+bld = "Bold"
+# Setting Variables to _
+mc_list = []
+tf_list = []
+ww_list = []
+game_score = 0
+game_questions = 0
+total_score = 0
+total_questions = 0
 
 
 # Main Routine
 q_list: list[Questions] = load_questions("maori_quiz_questions.txt")
-while True:
-    menu()
+menu()
